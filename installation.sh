@@ -84,6 +84,8 @@ fi
 
 #Apache configuration
 sudo ufw allow in "Apache Full"
+#Start apache server
+sudo service apache2 start
 
 #MySQL configuration
 #start the mysql server
@@ -96,3 +98,5 @@ sudo mysql_secure_installation
 sed -i 's/index.php *//'  /etc/apache2/mods-enabled/dir.conf
 #insert index.php to the front of the list, right after DirectoryIndex in dir.conf
 sed -i 's/DirectoryIndex/& index.php/ '  /etc/apache2/mods-enabled/dir.conf
+#restart apache
+sudo service apache2 restart
