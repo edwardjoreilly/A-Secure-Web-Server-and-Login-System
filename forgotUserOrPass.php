@@ -1,6 +1,5 @@
 <!--get query from databse for 1 of 3 security questions and a seperate query for their email using php-->
 <!--send them their login info on verification of credentials using mailto in html and getting the infor from the database query using php-->
-<!--EZ Clap-->
 
 
 <!DOCTYPE html>
