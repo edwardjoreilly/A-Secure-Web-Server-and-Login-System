@@ -44,7 +44,8 @@ try {
    $mail->send();
 
    /* If mail is successfully sent, send to where it needs to go.*/
-   header("location: http://10.0.2.15/sentMail.php");
+   //header("location: http://10.0.2.15/sentMail.php");
+   header($_SESSION["redirect"]);
 }
 catch (Exception $e)
 {
