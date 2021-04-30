@@ -1,12 +1,33 @@
 <?php
     session_start();
 
+    function generateRandomString($length = 6)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++)
+        {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    $_SESSION["code"] = generateRandomString();
+
+    if($_SESSION["hadForgotten"] == true)
+    {
+        echo "An email has been sent with your login info.";
+        $_SESSION["hadForgotten"] = false;
+    }
+
     if(isset($_POST["submit"]))
     {
         $_SESSION["EMAIL"] = $_POST["email"];
         $_SESSION["username"] = $_POST["username"];
         $_SESSION["SUBJECT"] = "Account Registered";
-        $_SESSION["Body"] = "Congrats, your account was registered!";
+        $_SESSION["Body"] = "Your account is ready to be created. Please use the code\n" . $_SESSION["code"] . "\nto complete your registration.";
+        $_SESSION["redirect"] = "location: http://10.0.2.15/sentMail.php";
         header("location: http://10.0.2.15/sendMail.php");
     }
 ?>
@@ -37,10 +58,6 @@
             <input type="password" id="passwordField" name="password"><br><br>
             <input type="submit" id="submitButton" name="submit" value="Submit">
         </form>
-        <form method="get" action = "http://10.0.2.15/sendMail.php">
-            <label>
-                <input type="submit" name="sendE" value="send Email!"><br><br>
-            </label>
 	    <div <?php if(isset($usernameError)): ?> id="usernameError" <?php endif ?>>
             <?php if (isset($usernameError)): ?>
                 <span><?php echo $usernameError; ?></span>
