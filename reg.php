@@ -1,5 +1,18 @@
 <?php
     session_start(); //Start the php session
+
+    //Generate a random string for Email verification
+    function generateRandomString($length = 6)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++)
+        {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
     
     //Connect to the database
     $dbHandle = mysqli_connect("localhost", "root", "(password)", "(database name)");
@@ -12,6 +25,13 @@
 	    die(); //Kills process if unable to connect to the database
     }
 
+    //If redirected from the forgotUserOrPass page, display a special message.
+    if($_SESSION["hadForgotten"] == true)
+    {
+        echo "An email has been sent with your login info.";
+        $_SESSION["hadForgotten"] = false;
+    }
+
     //If the submit button is pressed, check the database to see if the username exixts
     //If the username does not exist, create the new user. If the username does exist, show error
     if(isset($_POST["submit"])) {
@@ -22,11 +42,17 @@
         $lastname = ($_POST["lastname"]); //Get last name from form
         $birthday = ($_POST["birthday"]); //Get date of birth from form
         $email = ($_POST["email"]); //Get email address from form
+        $_SESSION["EMAIL"] = $_POST["email"]; //Get email address from form
         $securityq1 = ($_POST["securityq1"]); //Get the first security question from form
         $securityq2 = ($_POST["securityq2"]); //Get the second security question from form
         $securityq3 = ($_POST["securityq3"]); //Get the third security question from form
 	    $sql = "SELECT * FROM (database name) WHERE username='$username'"; //Send query to database
 	    $res = mysqli_query($dbHandle, $sql); //Get query results
+
+        $_SESSION["code"] = generateRandomString();
+        $_SESSION["SUBJECT"] = "Account Registered";
+        $_SESSION["Body"] = "Your account is ready to be created. Please use the code\n" . $_SESSION["code"] . "\nto complete your registration.";
+        $_SESSION["redirect"] = "location: http://10.0.2.15/sentMail.php";
         
         if($password != $password2) {
 	        //Checks if number of rows in the database is greater than 1,
@@ -43,7 +69,7 @@
                 VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
 	            $results = mysqli_query($dbHandle, $query);
                 $_SESSION['username'] = $username;
-	            header("location: http://192.168.56.103/regSuccess.php");
+	            header("location: http://192.168.56.103/sendMail.php");
 	        }
         }
 
