@@ -11,6 +11,13 @@
             
 	    die(); //Kills process if unable to connect to the database
     }
+
+    //If redirected from the forgotUserOrPass page, display a special message.
+    if($_SESSION["hadForgotten"] == true)
+    {
+        echo "An email has been sent with your login info.";
+        $_SESSION["hadForgotten"] = false;
+    }
     
     //If the submit button is pressed, check the database to see if the username exists
     //If the username does not exist, create the new user. If the username does exist, show error
