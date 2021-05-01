@@ -1,4 +1,3 @@
-
 <?php
     session_start();
 
@@ -48,7 +47,7 @@
         //$_SESSION["password"] = ;
         //$_SESSION["Body"] = "You are receiving this email because you forgot your username and password.\nUsername: " . $_SESSION["username"] . "\nPassword: " . $_SESSION["password"];
         $_SESSION["hadForgotten"] = true;
-        $_SESSION["redirect"] = "location: http://10.0.2.15/test.php";
+        $_SESSION["redirect"] = "location: http://10.0.2.15/login.php";
         header("location: http://10.0.2.15/sendMail.php");
     }
 ?>
