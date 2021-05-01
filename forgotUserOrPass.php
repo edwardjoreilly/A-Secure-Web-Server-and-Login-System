@@ -1,6 +1,3 @@
-<!--get query from databse for 1 of 3 security questions and a seperate query for their email using php-->
-<!--send them their login info on verification of credentials using mailto in html and getting the infor from the database query using php-->
-<!--EZ Clap-->
 <?php
     session_start();
 
@@ -50,8 +47,8 @@
         //$_SESSION["password"] = ;
         //$_SESSION["Body"] = "You are receiving this email because you forgot your username and password.\nUsername: " . $_SESSION["username"] . "\nPassword: " . $_SESSION["password"];
         $_SESSION["hadForgotten"] = true;
-        $_SESSION["redirect"] = "location: http://10.0.2.15/test.php";
-        header("location: http://10.0.2.15/sendMail.php");
+        $_SESSION["redirect"] = "location: http://192.168.1.23/login.php";
+        header("location: http://192.168.1.23/sendMail.php");
     }
 ?>
 
@@ -64,7 +61,7 @@
     <body>
 	    <h1>Forgot your username or password?</h1>
 	    <h3>We'll send you a recovery email. Please enter your email address in the box below and answer ONLY ONE of the security questions.</h3>
-	    <form name="form" method="post" action="http://192.168.56.103/forgotUserOrPass.php">
+	    <form name="form" method="post" action="http://192.168.1.23/forgotUserOrPass.php">
             <label for="emailField">Email Address:</label><br>
             <input type="text" id="emailField" name="email"><br><br>
             

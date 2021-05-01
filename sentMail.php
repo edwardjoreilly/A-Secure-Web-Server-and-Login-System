@@ -3,7 +3,7 @@
 
     if(isset($_POST["submit"]) && $_SESSION["code"] == $_POST["code"])
     {
-        header("location: http://10.0.2.15/regSuccess.php");
+        header("location: http://192.168.1.23/regSuccess.php");
     }
     else if(isset($_POST["submit"]) && $_SESSION["code"] != $_POST["code"])
     {
@@ -30,7 +30,7 @@
     <body>
         <h1>Do not close this page!</h1>
         <h3>Please enter the 6-digit code that was sent to your email to continue.</h5>
-        <form name="form" method="post" action="http://10.0.2.15/sentMail.php">
+        <form name="form" method="post" action="http://192.168.1.23/sentMail.php">
             <label for="codeField">Code:</label><br>
             <input type="text" id="codeField" name="code"><br><br>
             <input type="submit" id="submitButton" name="submit" value="Submit">
