@@ -63,44 +63,37 @@
 
         if((!empty($username)) && (!empty($password)) && (!empty($password2)) && (!empty($firstname)) && (!empty($lastname)) && (!empty($birthday)) && (!empty($email)) && (!empty($securityq1)) && (!empty($securityq2)) && (!empty($securityq3)))
         {
-        
-        
-        
-        if(($password == $password2) && isset($_POST["submit"])){
-            
-	        //Checks if number of rows in the database is greater than 1,
-	        //which would mean a user exists
-            if(mysqli_num_rows($res) > 0) {
-		        $usernameError = "Username already exists, please choose another.";
+            if(($password == $password2) && isset($_POST["submit"])){
+                
+                //Checks if number of rows in the database is greater than 1,
+                //which would mean a user exists
+                if(mysqli_num_rows($res) > 0) {
+                    $usernameError = "Username already exists, please choose another.";
+                }
+                else
+                {
+                    header("location: http://192.168.1.23/sendMail.php");
+                }
+                /*
+                //Create query and send it to the database to create a new user
+                //Then redirect the user to the Registration Success page
+                else {
+                    $query = "INSERT INTO Register (username, password, firstname, 
+                        lastname, birthday, email, securityq1, securityq2, securityq3) VALUES ('$username','$password', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
+                        $results = mysqli_query($dbHandle, $query);
+                        $_SESSION['username'] = $username;
+                        header("location: http://192.168.1.23/regSuccess.php");
+                }
+                */
+                }
+                else {
+                    $passwordError = "Passwords do not match.";
+                }
 	        }
-            else
-            {
-                header("location: http://192.168.1.23/sendMail.php");
-            }
-            /**
-	        //Create query and send it to the database to create a new user
-	        //Then redirect the user to the Registration Success page
 	        else {
-	        	$query = "INSERT INTO Register (username, password, firstname, 
-                	lastname, birthday, email, securityq1, securityq2, securityq3) VALUES ('$username','$password', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
-                	$results = mysqli_query($dbHandle, $query);
-                	$_SESSION['username'] = $username;
-                	header("location: http://192.168.1.23/regSuccess.php");
-	        }
-            */
-	        }
-	        else{
-	        	$passwordError = "Passwords do not match.";
-	        }
-	        }
-	        else{
-    	$blankError = "One or more of the fields are left blank. Please fill in all the fields before clicking the submit button.";
+    	        $blankError = "One or more of the fields are left blank. Please fill in all the fields before clicking the submit button.";
+        }
     }
-    }
-    
-    
-    
-    
     
 ?>
 

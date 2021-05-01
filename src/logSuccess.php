@@ -1,3 +1,30 @@
+<?php
+    session_start(); //Start the php session
+    
+    //Connect to the database
+    $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
+    
+    //Check the database connection
+    if(!$dbHandle) {
+	    print("Could not connect to the database.");
+	    print(mysqli_connect_error());
+            
+	    die(); //Kills process if unable to connect to the database
+    }
+    
+    $username = $_SESSION['username'];
+    $query2 = "SELECT first_name, last_name, number_of_logins, last_login FROM users WHERE username='$username'";
+    //$row = mysqli_query($dbHandle, $query2);
+
+	    	    $row = mysqli_fetch_row($query2);
+	    	    $firstname = $row[0];
+                $lastname = $row[1];
+                $numberOfLogins = $row[2];
+                $lastLoginDate = $row[3];
+	    	    //print($firstname);
+    mysqli_close($dbHandle);
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,11 +47,11 @@
     </script>
     </head>
     <body>
-	    <h1>Hi, <?php  print $firstname; ?> <?php  print $lastname; ?></h1>
-        <h2>You have logged in <?php  print $numberOfLogins; ?> times<h2>
-        <h2>Last login date: <?php  print $lastLoginDate; ?> </h2>
+	    <h1>Hi, <?php print $firstname; ?> <?php echo $lastname; ?></h1>
+        <h2>You have logged in <?php echo $numberOfLogins; ?> times<h2>
+        <h2>Last login date: <?php echo $lastLoginDate; ?> </h2>
 	    <button type="button" id="button" >Click Me!</button><br><br>
-	        <form method="get" action="http://192.168.56.103/login.php" >
+	        <form method="get" action="http://172.18.30.210/login.php" >
                 <label>
                     <input type="submit" value="Logout" id="logout" name="logout"><br><br>
 	            </label>

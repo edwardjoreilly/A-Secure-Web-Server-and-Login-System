@@ -1,5 +1,37 @@
 <?php
     session_start();
+
+    //Connect to the database
+    $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
+
+    //Check database connection
+    if(!$dbHandle) {
+	    print("Could not connect to the database.");
+	    print(mysqli_connect_error());
+
+	    die(); //Kills process if unable to connect to the database
+    }
+
+    $username = ($_SESSION["username"]);
+    $password = ($_SESSION["password"]);
+    $firstname = ($_SESSION["firstname"]);
+    $lastname = ($_SESSION["lastname"]);
+    $birthday = ($_SESSION["birthday"]);
+    $email = ($_SESSION["email"]);
+    $securityq1 = ($_SESSION["securityq1"]);
+    $securityq2 = ($_SESSION["securityq2"]);
+    $securityq3 = ($_SESSION["securityq3"]);
+
+    $sql = "SELECT * FROM users WHERE username ='$username'"; //Send query to database
+    $res = mysqli_query($dbHandle, $sql); //Get query results
+
+	//Create query and send it to the database to create a new user
+	//Then redirect the user to the Registration Success page
+	$query = "INSERT INTO users (username, user_password, user_firstname, 
+     user_lastname, birthday, user_email, securityq1, securityq2, securityq3) VALUES ('$username','$password', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
+    $results = mysqli_query($dbHandle, $query);
+    $_SESSION['username'] = $username;
+    
 ?>
 
 <!DOCTYPE HTML>

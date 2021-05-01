@@ -1,5 +1,15 @@
 #!/bin/bash -
 
+# Credentials
+USERNAME=user   
+PASSWORD=apple
+DATABASE=users
+
+# Prepare variables
+TABLE=$1
+SQL_EXISTS=$(printf 'SHOW TABLES LIKE "users"')
+
+
 #sudo - used to execute command with elevated privileges
 #apt - utility for managing packages
 #update - updates package index
@@ -90,13 +100,51 @@ sudo service apache2 start
 #MySQL configuration
 #start the mysql server
 sudo /etc/init.d/mysql start
+#set mysql root user password
+#sudo msyql -e "SET PASSWORD FOR root@localhost = PASSWORD('monkeyICECREAMballoon');FLUSH PRIVILEGES;"
 #run initial mysql config sequence
-sudo mysql_secure_installation
+#printf "monkeyICECREAMballoon\n y\n y\n y\n y\n" | 
+#sudo mysql_secure_installation
+
+
+mysql -u root -p$PASSWORD -e 'CREATE USER 'remote_user'@'localhost' IDENTIFIED BY 'Applebanana1!'; GRANT INSERT, SELECT, UPDATE ON users.users TO 'remote_user'@'localhost';'
+# Check if table exists
+if [[ $(mysql -u $USERNAME -p$PASSWORD -e "$SQL_EXISTS") ]]
+then
+    echo "Table exists ..."
+
+else
+    #
+    #mysql -u root -p$PASSWORD 'ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'apple'; flush privileges;'
+    echo "Table not exists ...\nCreating Database"
+    #Create database
+    mysql -u root -p$PASSWORD -e 'CREATE DATABASE users;'
+    #Create table
+    mysql -u root -p$PASSWORD -e 'USE users; CREATE TABLE users(user_id int unsigned NOT NULL AUTO_INCREMENT, 
+                                                        user_email varchar(255) DEFAULT NULL, 
+                                                        username varchar(255) NOT NULL, 
+                                                        user_password varchar(255) DEFAULT NULL, 
+                                                        first_name varchar(255) NOT NULL, 
+                                                        last_name varchar(255) NOT NULL,
+                                                        birthday DATE DEFAULT NULL,
+                                                        securityq1 varchar(255) DEFAULT NULL,
+                                                        securityq2 varchar(255) DEFAULT NULL,
+                                                        securityq3 varchar(255) DEFAULT NULL,
+                                                        number_of_logins int NOT NULL DEFAULT 1,
+                                                        last_login DATETIME DEFAULT now(),
+                                                        PRIMARY KEY (user_id),
+                                                        UNIQUE KEY (user_email)
+                                                        )'
+fi
+
 
 #PHP Config
 #remove index.php text from the text file dir.conf
 sed -i 's/index.php *//'  /etc/apache2/mods-enabled/dir.conf
 #insert index.php to the front of the list, right after DirectoryIndex in dir.conf
 sed -i 's/DirectoryIndex/& index.php/ '  /etc/apache2/mods-enabled/dir.conf
+#move php files to /var/www/html
+cp -a ./src/. /var/www/html/
+
 #restart apache
 sudo service apache2 restart

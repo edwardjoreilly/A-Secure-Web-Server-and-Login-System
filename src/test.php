@@ -30,6 +30,7 @@
         $_SESSION["redirect"] = "location: http://172.18.30.210/sentMail.php";
         header("location: http://172.18.30.210/sendMail.php");
     }
+    
 ?>
 
 <!DOCTYPE HTML>

@@ -2,7 +2,7 @@
     session_start(); //Start the php session
     
     //Connect to the database
-    $dbHandle = mysqli_connect("localhost", "root", "apple", "users");
+    $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
     
     //Check the database connection
     if(!$dbHandle) {
@@ -25,8 +25,14 @@
 	    //If the user exists and they aren't the admin, they are sent the login success page
 	    if(mysqli_num_rows($result) == 1) {
 		    $_SESSION["message"] = "Login Successful!";
-		    $_SESSION["username"] = $username;
-		    header("location: http://172.18.30.210/logSuccess.php");
+            $query = "UPDATE users SET number_of_logins = num_of_logins + 1 WHERE username='$username'";
+	    	$res = mysqli_query($dbHandle, $query);
+            $query3 = "UPDATE users SET last_login=now() WHERE username='$username";
+	    	$res = mysqli_query($dbHandle, $query3);
+            
+	    	$_SESSION['username'] = $username;
+		    
+            header("location: http://172.18.30.210/logSuccess.php");
 	    }
             
 	    //Error if the password or username were incorrect
@@ -34,6 +40,7 @@
 		    $usernameError = "The username or password was either incorrect or not found. Please check the spelling and capitalization and try again.";
 	    }
     }
+    mysqli_close($dbHandle);
 ?>
 
 <!DOCTYPE HTML>

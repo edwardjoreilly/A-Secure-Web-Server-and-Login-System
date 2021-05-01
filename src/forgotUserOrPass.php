@@ -5,8 +5,8 @@
     session_start();
 
     //Connect to the database
-    $dbHandle = mysqli_connect("localhost", "root", "apple", "users");
-
+    $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
+    
     //Check database connection
     if(!$dbHandle) {
 	    print("Could not connect to the database.");
@@ -50,8 +50,8 @@
         //$_SESSION["password"] = ;
         //$_SESSION["Body"] = "You are receiving this email because you forgot your username and password.\nUsername: " . $_SESSION["username"] . "\nPassword: " . $_SESSION["password"];
         $_SESSION["hadForgotten"] = true;
-        $_SESSION["redirect"] = "location: http://10.0.2.15/test.php";
-        header("location: http://10.0.2.15/sendMail.php");
+        $_SESSION["redirect"] = "location: http://172.18.30.210/test.php";
+        header("location: http://172.18.30.210/sendMail.php");
     }
 ?>
 
