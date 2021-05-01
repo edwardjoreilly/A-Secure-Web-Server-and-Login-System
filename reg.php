@@ -33,36 +33,51 @@
     //If the username does not exist, create the new user. If the username does exist, show error
     if(isset($_POST["submit"])) {
     	$username = ($_POST["username"]); //Get username from form
+        $_SESSION["username"] = ($_POST["username"]);
         $password = ($_POST["password"]); //Get password from form
+        $_SESSION["password"] = ($_POST["password"]);
         $password2 = ($_POST["password2"]); //Get password2 from form
+        $_SESSION["password2"] = ($_POST["password2"]);
         $firstname = ($_POST["firstname"]); //Get first name from form
+        $_SESSION["firstname"] = ($_POST["firstname"]);
         $lastname = ($_POST["lastname"]); //Get last name from form
+        $_SESSION["lastname"] = ($_POST["lastname"]);
         $birthday = ($_POST["birthday"]); //Get date of birth from form
+        $_SESSION["birthday"] = ($_POST["birthday"]);
         $email = ($_POST["email"]); //Get email address from form
+        $_SESSION["email"] = ($_POST["email"]);
         $_SESSION["EMAIL"] = $_POST["email"];
         $securityq1 = ($_POST["securityq1"]); //Get the first security question from form
+        $_SESSION["securityq1"] = ($_POST["securityq1"]);
         $securityq2 = ($_POST["securityq2"]); //Get the second security question from form
+        $_SESSION["securityq2"] = ($_POST["securityq2"]);
         $securityq3 = ($_POST["securityq3"]); //Get the third security question from form
-        $sql = "SELECT * FROM Register WHERE username ='$username'"; //Send query to database
-        $res = mysqli_query($dbHandle, $sql); //Get query results
+        $_SESSION["securityq3"] = ($_POST["securityq3"]);
         
         $_SESSION["code"] = generateRandomString();
         $_SESSION["SUBJECT"] = "Account Registered";
         $_SESSION["Body"] = "Your account is ready to be created. Please use the code\n" . $_SESSION["code"] . "\nto complete your registration.";
         $_SESSION["redirect"] = "location: http://192.168.1.23/sentMail.php";
         
-        if((!empty($username)) && (!empty($password)) && (!empty($password2)) && (!empty($firstname)) && (!empty($lastname)) && (!empty($birthday)) && (!empty($email)) && (!empty($securityq1)) && (!empty($securityq2)) && (!empty($securityq3))){
+        
+
+        if((!empty($username)) && (!empty($password)) && (!empty($password2)) && (!empty($firstname)) && (!empty($lastname)) && (!empty($birthday)) && (!empty($email)) && (!empty($securityq1)) && (!empty($securityq2)) && (!empty($securityq3)))
+        {
         
         
         
         if(($password == $password2) && isset($_POST["submit"])){
-        
+            
 	        //Checks if number of rows in the database is greater than 1,
 	        //which would mean a user exists
             if(mysqli_num_rows($res) > 0) {
 		        $usernameError = "Username already exists, please choose another.";
 	        }
-
+            else
+            {
+                header("location: http://192.168.1.23/sendMail.php");
+            }
+            /**
 	        //Create query and send it to the database to create a new user
 	        //Then redirect the user to the Registration Success page
 	        else {
@@ -72,8 +87,8 @@
                 	$_SESSION['username'] = $username;
                 	header("location: http://192.168.1.23/regSuccess.php");
 	        }
+            */
 	        }
-	        
 	        else{
 	        	$passwordError = "Passwords do not match.";
 	        }
