@@ -13,16 +13,35 @@
     }
     
     $username = $_SESSION['username'];
-    $query2 = "SELECT first_name, last_name, number_of_logins, last_login FROM users WHERE username='$username'";
-    //$row = mysqli_query($dbHandle, $query2);
+    $query2 = "SELECT * FROM users WHERE username='$username'";
+	    	    //$query2 = mysqli_fetch_array($query2);
+                //mysqli_select_db('users');
+                $retval = mysqli_query($dbHandle, $query2);
 
-	    	    $row = mysqli_fetch_row($query2);
-	    	    $firstname = $row[0];
-                $lastname = $row[1];
-                $numberOfLogins = $row[2];
-                $lastLoginDate = $row[3];
+                if(! $retval ) {
+                    die('Could not get data: ' . mysqli_error());
+                 }
+                //$row = mysql_fetch_assoc($retval);
+                while($row = mysqli_fetch_assoc($retval)){
+                    $firstname = $row['first_name'];
+                    $lastname = $row['last_name'];
+                    $numberOfLogins = $row['number_of_logins'];
+                    $lastLoginDate = $row['last_login'];
+                }
+                 
+
+                // $firstname = $row['first_name'];
+                // $lastname = $row['last_name'];
+                // $numberOfLogins = $row['number_of_logins'];
+                // $lastLoginDate = $row['last_login'];
+
+	    	    //$_SESSION['firstname'] = $row['first_name'];
+                // $firstname = $row[0];
+                // $lastname = $row[1];
+                // $numberOfLogins = $row[2];
+                // $lastLoginDate = $row[3];
 	    	    //print($firstname);
-    mysqli_close($dbHandle);
+ 
 ?>
 
 <!DOCTYPE html>

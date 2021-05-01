@@ -25,10 +25,10 @@
 	    //If the user exists and they aren't the admin, they are sent the login success page
 	    if(mysqli_num_rows($result) == 1) {
 		    $_SESSION["message"] = "Login Successful!";
-            $query = "UPDATE users SET number_of_logins = num_of_logins + 1 WHERE username='$username'";
+            $query = "UPDATE users SET number_of_logins = number_of_logins + 1, last_login=now() WHERE username='$username'";
 	    	$res = mysqli_query($dbHandle, $query);
-            $query3 = "UPDATE users SET last_login=now() WHERE username='$username";
-	    	$res = mysqli_query($dbHandle, $query3);
+            // $query3 = "UPDATE users SET last_login=now() WHERE username='$username";
+	    	// $res = mysqli_query($dbHandle, $query3);
             
 	    	$_SESSION['username'] = $username;
 		    
