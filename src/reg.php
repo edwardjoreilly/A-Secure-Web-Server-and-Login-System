@@ -16,7 +16,7 @@
     
     //Connect to the database
     $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
-    
+
     //Check database connection
     if(!$dbHandle) {
 	    print("Could not connect to the database.");
@@ -53,7 +53,8 @@
         $_SESSION["code"] = generateRandomString();
         $_SESSION["SUBJECT"] = "Account Registered";
         $_SESSION["Body"] = "Your account is ready to be created. Please use the code\n" . $_SESSION["code"] . "\nto complete your registration.";
-        
+        $_SESSION["redirect"] = "location: http://172.18.30.210/sentMail.php";
+
         if((!empty($username)) && (!empty($password)) && (!empty($password2)) && (!empty($firstname)) && (!empty($lastname)) && (!empty($birthday)) && (!empty($email)) && (!empty($securityq1)) && (!empty($securityq2)) && (!empty($securityq3)))
         {
             if($password == $password2) {

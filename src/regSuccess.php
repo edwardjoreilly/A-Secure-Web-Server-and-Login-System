@@ -27,8 +27,8 @@
 
 	//Create query and send it to the database to create a new user
 	//Then redirect the user to the Registration Success page
-	$query = "INSERT INTO users (username, user_password, user_firstname, 
-     user_lastname, birthday, user_email, securityq1, securityq2, securityq3) VALUES ('$username','$password', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
+	$query = "INSERT INTO users (username, user_password, first_name, 
+     last_name, birthday, user_email, securityq1, securityq2, securityq3) VALUES ('$username','$password', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
     $results = mysqli_query($dbHandle, $query);
     $_SESSION['username'] = $username;
     

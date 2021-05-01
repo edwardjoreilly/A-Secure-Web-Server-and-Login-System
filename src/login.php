@@ -40,7 +40,6 @@
 		    $usernameError = "The username or password was either incorrect or not found. Please check the spelling and capitalization and try again.";
 	    }
     }
-    mysqli_close($dbHandle);
 ?>
 
 <!DOCTYPE HTML>

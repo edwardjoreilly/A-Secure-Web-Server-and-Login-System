@@ -6,11 +6,11 @@
 
     //Connect to the database
     $dbHandle = mysqli_connect("localhost", "remote_user", "Applebanana1!", "users");
-    
+
     //Check database connection
     if(!$dbHandle) {
 	    print("Could not connect to the database.");
-	    print(mysqli_connect_error());
+	    //print(mysqli_connect_error());
 
 	    die(); //Kills process if unable to connect to the database
     }
