@@ -18,6 +18,12 @@
 	    $username = ($_POST["username"]); //Get username from form
         $password = ($_POST["password"]); //Get password from form
 	    $sql = "SELECT * FROM (database name) WHERE username='$username' AND password='$password'"; //Send query to databse
+	    
+	    $sql = $dbHandle->prepare("SELECT * FROM (database name) WHERE username=(:username) AND password=(:password)");
+	    $sql->bindParam(':username', $username);
+	    $sql->bindParam(':password', $password);
+	    $sql->execute();
+	    
 	    $result = mysqli_query($dbHandle, $sql); //Get query results
             
 	    //Checks if number of rows in databse is equal to one, which means a user exists
