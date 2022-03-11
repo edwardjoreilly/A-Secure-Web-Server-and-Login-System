@@ -42,22 +42,19 @@
 	        //Create query and send it to the database to create a new user
 	        //Then redirect the user to the Registration Success page
 	        else {
-	            $query = "INSERT INTO (database name) (username, password, password2, firstname, lastname, birthday, email, securityq1, securityq2, securityq3) 
-                VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
-	        
-		$query = $dbHandle->prepare("INSERT INTO (database name) (username, password, password2, firstname, lastname, birthday, email, securityq1, securityq2, securityq3) 
-                VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')");
-		$query->bindParam(':username', $username);
-		$query->bindParam(':password', $password);
-		$query->bindParam(':password2', $password2);
-		$query->bindParam(':firstname', $firstname);
-		$query->bindParam(':lastname', $lastname);
-		$query->bindParam(':birthday', $birthday);
-		$query->bindParam(':email', $email);
-		$query->bindParam(':securityq1', $securityq1);
-		$query->bindParam(':securityq2', $securityq2);
-		$query->bindParam(':securityq3', $securityq3);
-		$query->execute();
+			$query = $dbHandle->prepare("INSERT INTO (database name) (username, password, password2, firstname, lastname, birthday, email, securityq1, securityq2, securityq3) 
+			VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')");
+			$query->bindParam(':username', $username);
+			$query->bindParam(':password', $password);
+			$query->bindParam(':password2', $password2);
+			$query->bindParam(':firstname', $firstname);
+			$query->bindParam(':lastname', $lastname);
+			$query->bindParam(':birthday', $birthday);
+			$query->bindParam(':email', $email);
+			$query->bindParam(':securityq1', $securityq1);
+			$query->bindParam(':securityq2', $securityq2);
+			$query->bindParam(':securityq3', $securityq3);
+			$query->execute();
 			
 		$results = mysqli_query($dbHandle, $query);
                 $_SESSION['username'] = $username;
