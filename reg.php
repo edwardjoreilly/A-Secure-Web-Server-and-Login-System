@@ -15,7 +15,7 @@
     //If the submit button is pressed, check the database to see if the username exixts
     //If the username does not exist, create the new user. If the username does exist, show error
     if(isset($_POST["submit"])) {
-	    $username = ($_POST["username"]); //Get username from form
+	$username = ($_POST["username"]); //Get username from form
         $password = ($_POST["password"]); //Get password from form
         $password2 = ($_POST["password2"]); //Get password2 from form
         $firstname = ($_POST["firstname"]); //Get first name from form
@@ -25,8 +25,12 @@
         $securityq1 = ($_POST["securityq1"]); //Get the first security question from form
         $securityq2 = ($_POST["securityq2"]); //Get the second security question from form
         $securityq3 = ($_POST["securityq3"]); //Get the third security question from form
-	    $sql = "SELECT * FROM (database name) WHERE username='$username'"; //Send query to database
-	    $res = mysqli_query($dbHandle, $sql); //Get query results
+	    
+	$sql = $dbHandle->prepare("SELECT * FROM (database name) WHERE username=(:username)");
+	$sql->bindParam(':username', $username);
+	$sql->execute();
+	
+	$res = mysqli_query($dbHandle, $sql); //Get query results
         
         if($password != $password2) {
 	        //Checks if number of rows in the database is greater than 1,
@@ -38,10 +42,24 @@
 	        //Create query and send it to the database to create a new user
 	        //Then redirect the user to the Registration Success page
 	        else {
-	            $query = "INSERT INTO (database name) (username, password, password2, firstname, 
-                lastname, birthday, email, securityq1, securityq2, securityq3) 
+	            $query = "INSERT INTO (database name) (username, password, password2, firstname, lastname, birthday, email, securityq1, securityq2, securityq3) 
                 VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')";
-	            $results = mysqli_query($dbHandle, $query);
+	        
+		$query = $dbHandle->prepare("INSERT INTO (database name) (username, password, password2, firstname, lastname, birthday, email, securityq1, securityq2, securityq3) 
+                VALUES ('$username','$password', '$password2', '$firstname', '$lastname', '$birthday', '$email', '$securityq1', '$securityq2', '$securityq3')");
+		$query->bindParam(':username', $username);
+		$query->bindParam(':password', $password);
+		$query->bindParam(':password2', $password2);
+		$query->bindParam(':firstname', $firstname);
+		$query->bindParam(':lastname', $lastname);
+		$query->bindParam(':birthday', $birthday);
+		$query->bindParam(':email', $email);
+		$query->bindParam(':securityq1', $securityq1);
+		$query->bindParam(':securityq2', $securityq2);
+		$query->bindParam(':securityq3', $securityq3);
+		$query->execute();
+			
+		$results = mysqli_query($dbHandle, $query);
                 $_SESSION['username'] = $username;
 	            header("location: http://192.168.56.103/regSuccess.php");
 	        }
